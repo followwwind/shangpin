@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shangpin.mapper.CompanyMapper" >
+    <resultMap id="BaseResultMap" type="com.shangpin.entity.Company" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="trade_account" property="tradeAccount" jdbcType="VARCHAR" />
+        <result column="cert_4SUCC" property="cert4SUCC" jdbcType="VARCHAR" />
+        <result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
+        <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="founding_date" property="foundingDate" jdbcType="VARCHAR" />
+        <result column="registered_capital" property="registeredCapital" jdbcType="INTEGER" />
+        <result column="industry" property="industry" jdbcType="VARCHAR" />
+        <result column="period" property="period" jdbcType="VARCHAR" />
+        <result column="scope" property="scope" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="change_time" property="changeTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <sql id="Column_List" >
+        id,trade_account,cert_4SUCC,legal_person,company_name,status,founding_date,registered_capital,
+			industry,period,scope,address,change_time
+    </sql>
+
+    <sql id="Column_Selective_List" >
+        <trim prefix="" suffix="" suffixOverrides="," prefixOverrides=",">
+			<if test="id!= null" >
+				, id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="tradeAccount!= null and tradeAccount!=''" >
+				, trade_account = #{tradeAccount,jdbcType=VARCHAR}
+			</if>
+			<if test="cert4SUCC!= null and cert4SUCC!=''" >
+				, cert_4SUCC = #{cert4SUCC,jdbcType=VARCHAR}
+			</if>
+			<if test="legalPerson!= null and legalPerson!=''" >
+				, legal_person = #{legalPerson,jdbcType=VARCHAR}
+			</if>
+			<if test="companyName!= null and companyName!=''" >
+				, company_name = #{companyName,jdbcType=VARCHAR}
+			</if>
+			<if test="status!= null and status!=''" >
+				, status = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="foundingDate!= null and foundingDate!=''" >
+				, founding_date = #{foundingDate,jdbcType=VARCHAR}
+			</if>
+			<if test="registeredCapital!= null" >
+				, registered_capital = #{registeredCapital,jdbcType=INTEGER}
+			</if>
+			<if test="industry!= null and industry!=''" >
+				, industry = #{industry,jdbcType=VARCHAR}
+			</if>
+			<if test="period!= null and period!=''" >
+				, period = #{period,jdbcType=VARCHAR}
+			</if>
+			<if test="scope!= null and scope!=''" >
+				, scope = #{scope,jdbcType=VARCHAR}
+			</if>
+			<if test="address!= null and address!=''" >
+				, address = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="changeTime!= null and changeTime!=''" >
+				, change_time = #{changeTime,jdbcType=VARCHAR}
+			</if>
+		</trim>
+    </sql>
+
+    <sql id="Column_Selective_And_List" >
+        <if test="id!= null" >
+			and id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="tradeAccount!= null and tradeAccount!=''" >
+			and trade_account = #{tradeAccount,jdbcType=VARCHAR}
+		</if>
+		<if test="cert4SUCC!= null and cert4SUCC!=''" >
+			and cert_4SUCC = #{cert4SUCC,jdbcType=VARCHAR}
+		</if>
+		<if test="legalPerson!= null and legalPerson!=''" >
+			and legal_person = #{legalPerson,jdbcType=VARCHAR}
+		</if>
+		<if test="companyName!= null and companyName!=''" >
+			and company_name = #{companyName,jdbcType=VARCHAR}
+		</if>
+		<if test="status!= null and status!=''" >
+			and status = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="foundingDate!= null and foundingDate!=''" >
+			and founding_date = #{foundingDate,jdbcType=VARCHAR}
+		</if>
+		<if test="registeredCapital!= null" >
+			and registered_capital = #{registeredCapital,jdbcType=INTEGER}
+		</if>
+		<if test="industry!= null and industry!=''" >
+			and industry = #{industry,jdbcType=VARCHAR}
+		</if>
+		<if test="period!= null and period!=''" >
+			and period = #{period,jdbcType=VARCHAR}
+		</if>
+		<if test="scope!= null and scope!=''" >
+			and scope = #{scope,jdbcType=VARCHAR}
+		</if>
+		<if test="address!= null and address!=''" >
+			and address = #{address,jdbcType=VARCHAR}
+		</if>
+		<if test="changeTime!= null and changeTime!=''" >
+			and change_time = #{changeTime,jdbcType=VARCHAR}
+		</if>
+		
+    </sql>
+
+    <sql id="Column_Assign_List" >
+        #{id,jdbcType=INTEGER},#{tradeAccount,jdbcType=VARCHAR},#{cert4SUCC,jdbcType=VARCHAR},#{legalPerson,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},#{foundingDate,jdbcType=VARCHAR},#{registeredCapital,jdbcType=INTEGER},#{industry,jdbcType=VARCHAR},
+		#{period,jdbcType=VARCHAR},#{scope,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{changeTime,jdbcType=VARCHAR}
+		
+    </sql>
+
+    <sql id="InsertBatch_List" >
+        #{item.id,jdbcType=INTEGER},#{item.tradeAccount,jdbcType=VARCHAR},#{item.cert4SUCC,jdbcType=VARCHAR},#{item.legalPerson,jdbcType=VARCHAR},#{item.companyName,jdbcType=VARCHAR},
+		#{item.status,jdbcType=VARCHAR},#{item.foundingDate,jdbcType=VARCHAR},#{item.registeredCapital,jdbcType=INTEGER},#{item.industry,jdbcType=VARCHAR},
+		#{item.period,jdbcType=VARCHAR},#{item.scope,jdbcType=VARCHAR},#{item.address,jdbcType=VARCHAR},#{item.changeTime,jdbcType=VARCHAR}
+		
+    </sql>
+
+    <insert id="insert" parameterType="com.shangpin.entity.Company" useGeneratedKeys="true" keyProperty="id">
+        insert into company (
+        <include refid="Column_List" />
+        ) values (
+        <include refid="Column_Assign_List" />
+        )
+    </insert>
+
+    <!--<insert id="insertBatch" >-->
+    <!--insert into company (-->
+    <!--<include refid="Column_List" />-->
+    <!--) values-->
+    <!--<foreach collection="list" item="item" separator=",">-->
+    <!--(-->
+    <!--<include refid="InsertBatch_List" />-->
+    <!--)-->
+    <!--</foreach>-->
+    <!--</insert>-->
+
+    <delete id="deleteById">
+        delete from company where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        r.id,r.trade_account tradeAccount,r.cert_4SUCC cert4SUCC,r.legal_person legalPerson,r.company_name companyName,r.status,r.founding_date foundingDate,r.registered_capital registeredCapital,
+			r.industry,r.period,r.scope,r.address,r.change_time changeTime
+        from company r
+        where r.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="update" parameterType="com.shangpin.entity.Company" >
+        update company
+        <set>
+            <include refid="Column_Selective_List" />
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="com.shangpin.entity.Company" >
+        delete from company where 1=1
+        <include refid="Column_Selective_And_List" />
+    </delete>
+
+    <select id="list" resultType="com.shangpin.entity.Company" parameterType="com.shangpin.entity.Company">
+        select
+        r.id,r.trade_account tradeAccount,r.cert_4SUCC cert4SUCC,r.legal_person legalPerson,r.company_name companyName,r.status,r.founding_date foundingDate,r.registered_capital registeredCapital,
+			r.industry,r.period,r.scope,r.address,r.change_time changeTime
+        from company r
+        where 1 = 1
+        <if test="id!= null" >
+			and r.id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="tradeAccount!= null and tradeAccount!=''" >
+			and r.trade_account like concat('%', #{tradeAccount,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="cert4SUCC!= null and cert4SUCC!=''" >
+			and r.cert_4SUCC like concat('%', #{cert4SUCC,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="legalPerson!= null and legalPerson!=''" >
+			and r.legal_person like concat('%', #{legalPerson,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="companyName!= null and companyName!=''" >
+			and r.company_name like concat('%', #{companyName,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="status!= null and status!=''" >
+			and r.status like concat('%', #{status,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="foundingDate!= null and foundingDate!=''" >
+			and r.founding_date like concat('%', #{foundingDate,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="registeredCapital!= null" >
+			and r.registered_capital = #{registeredCapital,jdbcType=INTEGER}
+		</if>
+		<if test="industry!= null and industry!=''" >
+			and r.industry like concat('%', #{industry,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="period!= null and period!=''" >
+			and r.period like concat('%', #{period,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="scope!= null and scope!=''" >
+			and r.scope like concat('%', #{scope,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="address!= null and address!=''" >
+			and r.address like concat('%', #{address,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="changeTime!= null and changeTime!=''" >
+			and r.change_time like concat('%', #{changeTime,jdbcType=VARCHAR}, '%')
+		</if>
+		
+    </select>
+
+	<select id="listBySucc" resultType="com.shangpin.entity.Company">
+		select
+		r.id,r.trade_account tradeAccount,r.cert_4SUCC cert4SUCC,r.legal_person legalPerson,r.company_name companyName,r.status,r.founding_date foundingDate,r.registered_capital registeredCapital,
+		r.industry,r.period,r.scope,r.address,r.change_time changeTime
+		from company r
+		where r.cert_4SUCC in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="checkList" resultType="com.shangpin.entity.vo.ApplyCompanyVO" parameterType="com.shangpin.entity.dto.CheckCompanyDTO">
+		select
+		r.id,r.req_batch_no reqBatchNo,r.apply_id applyId,r.company_id companyId,r.status,r.create_time createTime,
+		c.cert_4SUCC cert4SUCC
+		from apply_company r
+		inner join company c on r.company_id = c.id
+		where 1 = 1
+		<if test="reqBatchNo!= null and reqBatchNo!=''" >
+			and r.req_batch_no  = #{reqBatchNo,jdbcType=VARCHAR}
+		</if>
+		<if test="items!= null and items.size() > 0" >
+			and
+			<foreach collection="items" item="item" open="(" close=")" separator="or">
+				r.apply_id = #{item.applyId} and c.trade_account = #{item.tradeAccount}
+				and c.cert_4SUCC = #{item.cert4SUCC} and c.legal_person = #{item.legalPerson}
+				and c.company_name = #{item.companyName}
+			</foreach>
+		</if>
+	</select>
+
+
+	<select id="applyList" resultType="com.shangpin.entity.vo.ApplyVO" parameterType="com.shangpin.entity.dto.ReportDTO">
+		select
+		r.apply_id applyId, r.status returnCode
+		from apply_company r
+		where 1 = 1
+		<if test="reqBatchNo!= null and reqBatchNo!=''" >
+			and r.req_batch_no  = #{reqBatchNo,jdbcType=VARCHAR}
+		</if>
+		<if test="items!= null and items.size() > 0" >
+			and r.apply_id in
+			<foreach collection="items" item="item" open="(" close=")" separator=",">
+				#{item.applyId}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="reportList" resultType="com.shangpin.entity.vo.ReportVO" parameterType="com.shangpin.entity.dto.ReportDTO">
+		select
+		r.id,r.apply_id applyId,r.check_report_no checkReportNo,r.credit_composite_score creditCompositeScore,r.credit_composite_level creditCompositeLevel
+		from report r
+		inner join apply_company c on r.apply_id = c.apply_id
+		where 1 = 1
+		<if test="reqBatchNo!= null and reqBatchNo!=''" >
+			and c.req_batch_no  = #{reqBatchNo,jdbcType=VARCHAR}
+		</if>
+		<if test="items!= null and items.size() > 0" >
+			and r.apply_id in
+			<foreach collection="items" item="item" open="(" close=")" separator=",">
+				#{item.applyId}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="reportDetailList" resultType="com.shangpin.entity.vo.ReportDetailVO">
+		select
+		r.id,r.report_id reportId,r.check_item_no checkItemNo,r.check_type checkType,r.real_value realValue,r.report_info reportInfo,r.item_score itemScore
+		from report_detail r
+		where r.report_id = #{reportId}
+	</select>
+</mapper>
+

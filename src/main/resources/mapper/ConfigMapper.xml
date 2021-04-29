@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shangpin.mapper.ConfigMapper" >
+    <resultMap id="BaseResultMap" type="com.shangpin.entity.Config" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="config_no" property="configNo" jdbcType="VARCHAR" />
+        <result column="platform_id" property="platformId" jdbcType="VARCHAR" />
+        <result column="checkType" property="checkType" jdbcType="INTEGER" />
+        <result column="applyTime" property="applyTime" jdbcType="VARCHAR" />
+        <result column="pass_line" property="passLine" jdbcType="DECIMAL" />
+        <result column="good_line" property="goodLine" jdbcType="DECIMAL" />
+        <result column="excellent_line" property="excellentLine" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+    <sql id="Column_List" >
+        id,config_no,platform_id,checkType,applyTime,pass_line,good_line,excellent_line
+			
+    </sql>
+
+    <sql id="Column_Selective_List" >
+        <trim prefix="" suffix="" suffixOverrides="," prefixOverrides=",">
+			<if test="id!= null" >
+				, id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="configNo!= null and configNo!=''" >
+				, config_no = #{configNo,jdbcType=VARCHAR}
+			</if>
+			<if test="platformId!= null and platformId!=''" >
+				, platform_id = #{platformId,jdbcType=VARCHAR}
+			</if>
+			<if test="checkType!= null" >
+				, checkType = #{checkType,jdbcType=INTEGER}
+			</if>
+			<if test="applyTime!= null and applyTime!=''" >
+				, applyTime = #{applyTime,jdbcType=VARCHAR}
+			</if>
+			<if test="passLine!= null" >
+				, pass_line = #{passLine,jdbcType=DECIMAL}
+			</if>
+			<if test="goodLine!= null" >
+				, good_line = #{goodLine,jdbcType=DECIMAL}
+			</if>
+			<if test="excellentLine!= null" >
+				, excellent_line = #{excellentLine,jdbcType=DECIMAL}
+			</if>
+		</trim>
+    </sql>
+
+    <sql id="Column_Selective_And_List" >
+        <if test="id!= null" >
+			and id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="configNo!= null and configNo!=''" >
+			and config_no = #{configNo,jdbcType=VARCHAR}
+		</if>
+		<if test="platformId!= null and platformId!=''" >
+			and platform_id = #{platformId,jdbcType=VARCHAR}
+		</if>
+		<if test="checkType!= null" >
+			and checkType = #{checkType,jdbcType=INTEGER}
+		</if>
+		<if test="applyTime!= null and applyTime!=''" >
+			and applyTime = #{applyTime,jdbcType=VARCHAR}
+		</if>
+		<if test="passLine!= null" >
+			and pass_line = #{passLine,jdbcType=DECIMAL}
+		</if>
+		<if test="goodLine!= null" >
+			and good_line = #{goodLine,jdbcType=DECIMAL}
+		</if>
+		<if test="excellentLine!= null" >
+			and excellent_line = #{excellentLine,jdbcType=DECIMAL}
+		</if>
+		
+    </sql>
+
+    <sql id="Column_Assign_List" >
+        #{id,jdbcType=INTEGER},#{configNo,jdbcType=VARCHAR},#{platformId,jdbcType=VARCHAR},#{checkType,jdbcType=INTEGER},#{applyTime,jdbcType=VARCHAR},
+		#{passLine,jdbcType=DECIMAL},#{goodLine,jdbcType=DECIMAL},#{excellentLine,jdbcType=DECIMAL}
+    </sql>
+
+    <sql id="InsertBatch_List" >
+        #{item.id,jdbcType=INTEGER},#{item.configNo,jdbcType=VARCHAR},#{item.platformId,jdbcType=VARCHAR},#{item.checkType,jdbcType=INTEGER},#{item.applyTime,jdbcType=VARCHAR},
+		#{item.passLine,jdbcType=DECIMAL},#{item.goodLine,jdbcType=DECIMAL},#{item.excellentLine,jdbcType=DECIMAL}
+    </sql>
+
+    <insert id="insert" parameterType="com.shangpin.entity.Config" useGeneratedKeys="true" keyProperty="id">
+        insert into config (
+        <include refid="Column_List" />
+        ) values (
+        <include refid="Column_Assign_List" />
+        )
+    </insert>
+
+    <!--<insert id="insertBatch" >-->
+    <!--insert into config (-->
+    <!--<include refid="Column_List" />-->
+    <!--) values-->
+    <!--<foreach collection="list" item="item" separator=",">-->
+    <!--(-->
+    <!--<include refid="InsertBatch_List" />-->
+    <!--)-->
+    <!--</foreach>-->
+    <!--</insert>-->
+
+    <delete id="deleteById">
+        delete from config where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        r.id,r.config_no configNo,r.platform_id platformId,r.checkType,r.applyTime,r.pass_line passLine,r.good_line goodLine,r.excellent_line excellentLine
+			
+        from config r
+        where r.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="update" parameterType="com.shangpin.entity.Config" >
+        update config
+        <set>
+            <include refid="Column_Selective_List" />
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="com.shangpin.entity.Config" >
+        delete from config where 1=1
+        <include refid="Column_Selective_And_List" />
+    </delete>
+
+    <select id="list" resultType="com.shangpin.entity.Config" parameterType="com.shangpin.entity.Config">
+        select
+        r.id,r.config_no configNo,r.platform_id platformId,r.checkType,r.applyTime,r.pass_line passLine,r.good_line goodLine,r.excellent_line excellentLine
+			
+        from config r
+        where 1 = 1
+        <if test="id!= null" >
+			and r.id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="configNo!= null and configNo!=''" >
+			and r.config_no like concat('%', #{configNo,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="platformId!= null and platformId!=''" >
+			and r.platform_id like concat('%', #{platformId,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="checkType!= null" >
+			and r.checkType = #{checkType,jdbcType=INTEGER}
+		</if>
+		<if test="applyTime!= null and applyTime!=''" >
+			and r.applyTime like concat('%', #{applyTime,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="passLine!= null" >
+			and r.pass_line = #{passLine,jdbcType=DECIMAL}
+		</if>
+		<if test="goodLine!= null" >
+			and r.good_line = #{goodLine,jdbcType=DECIMAL}
+		</if>
+		<if test="excellentLine!= null" >
+			and r.excellent_line = #{excellentLine,jdbcType=DECIMAL}
+		</if>
+    </select>
+
+
+	<select id="listConfigByTime" resultType="com.shangpin.entity.vo.ConfigVO" >
+		select
+		r.id,r.config_no configNo,r.platform_id platformId,r.checkType,r.applyTime,r.pass_line passLine,r.good_line goodLine,r.excellent_line excellentLine
+		from config r
+		where 1=1
+		<if test="startTime!= null and startTime!=''" >
+			r.applyTime >= #{startTime}
+		</if>
+	</select>
+
+	<select id="listCheckItem" resultType="com.shangpin.entity.vo.ConfigCheckItemVO" >
+		select
+		r.id,r.config_id configId,r.item_no itemNo,r.item_name itemName,r.summary,r.value_type valueType,r.allow_value allowValue,r.weight
+		from config_check_item r
+		where r.config_id = #{configId}
+	</select>
+
+	<select id="listGroupItem" resultType="com.shangpin.entity.vo.ConfigGroupItemVO" >
+		select
+        r.id,r.config_id configId,r.group_no groupNo,r.group_name groupName,r.passLine,r.weight
+        from config_group_item r
+		where r.config_id = #{configId}
+	</select>
+</mapper>
+

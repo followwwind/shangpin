@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shangpin.mapper.PlatformUserMapper">
+    
+    <resultMap type="com.shangpin.entity.PlatformUser" id="PlatformUserResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="email"    column="email"    />
+        <result property="site"    column="site"    />
+        <result property="domainname"    column="domainName"    />
+        <result property="recordno"    column="recordNo"    />
+        <result property="businessscope"    column="businessScope"    />
+        <result property="password"    column="password"    />
+        <result property="lockedstate"    column="lockedState"    />
+    </resultMap>
+
+    <sql id="selectPlatformUserVo">
+        select id, name, email, site, domainName, recordNo, businessScope, password, lockedState from platform_user
+    </sql>
+
+    <select id="selectPlatformUserList" parameterType="com.shangpin.entity.PlatformUser" resultMap="PlatformUserResult">
+        <include refid="selectPlatformUserVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="site != null  and site != ''"> and site = #{site}</if>
+            <if test="domainname != null  and domainname != ''"> and domainName like concat('%', #{domainname}, '%')</if>
+            <if test="recordno != null  and recordno != ''"> and recordNo = #{recordno}</if>
+            <if test="businessscope != null  and businessscope != ''"> and businessScope = #{businessscope}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="lockedstate != null "> and lockedState = #{lockedstate}</if>
+
+        </where>
+    </select>
+    
+    <select id="selectPlatformUserById" parameterType="Long" resultMap="PlatformUserResult">
+        <include refid="selectPlatformUserVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectPlatformUserByEmail" resultType="com.shangpin.entity.PlatformUser">
+        <include refid="selectPlatformUserVo"/>
+        where email = #{userEmail}
+    </select>
+
+    <insert id="insertPlatformUser" parameterType="com.shangpin.entity.PlatformUser" useGeneratedKeys="true" keyProperty="id">
+        insert into platform_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="email != null">email,</if>
+            <if test="site != null">site,</if>
+            <if test="domainname != null">domainName,</if>
+            <if test="recordno != null">recordNo,</if>
+            <if test="businessscope != null">businessScope,</if>
+            <if test="password != null">password,</if>
+            <if test="lockedstate != null">lockedState,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="email != null">#{email},</if>
+            <if test="site != null">#{site},</if>
+            <if test="domainname != null">#{domainname},</if>
+            <if test="recordno != null">#{recordno},</if>
+            <if test="businessscope != null">#{businessscope},</if>
+            <if test="password != null">#{password},</if>
+            <if test="lockedstate != null">#{lockedstate},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlatformUser" parameterType="com.shangpin.entity.PlatformUser">
+        update platform_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="site != null">site = #{site},</if>
+            <if test="domainname != null">domainName = #{domainname},</if>
+            <if test="recordno != null">recordNo = #{recordno},</if>
+            <if test="businessscope != null">businessScope = #{businessscope},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="lockedstate != null">lockedState = #{lockedstate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlatformUserById" parameterType="Long">
+        delete from platform_user where id = #{id}
+    </delete>
+
+    <delete id="deletePlatformUserByIds" parameterType="String">
+        delete from platform_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

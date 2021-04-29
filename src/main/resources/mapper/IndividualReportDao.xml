@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shangpin.dao.IndividualReportDao">
+
+    <resultMap type="com.shangpin.entity.IndividualReport" id="IndividualReportMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="inrule" column="inRule" jdbcType="VARCHAR"/>
+        <result property="ininfor" column="inInfor" jdbcType="VARCHAR"/>
+        <result property="userEmail" column="user_email" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="IndividualReportMap">
+        select id,
+               inRule,
+               inInfor,
+               user_email
+        from shangpin.individual_report
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="IndividualReportMap">
+        select id,
+               inRule,
+               inInfor,
+               user_email
+        from shangpin.individual_report limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="IndividualReportMap">
+        select
+        id, inRule, inInfor, user_email
+        from shangpin.individual_report
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="inrule != null and inrule != ''">
+                and inRule = #{inrule}
+            </if>
+            <if test="ininfor != null and ininfor != ''">
+                and inInfor = #{ininfor}
+            </if>
+            <if test="userEmail != null">
+                and user_email = #{userEmail}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into shangpin.individual_report(inRule, inInfor, user_email)
+        values (#{inrule}, #{ininfor}, #{userEmail})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into shangpin.individual_report(inRule, inInfor, user_email)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.inrule}, #{entity.ininfor}, #{entity.userEmail})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into shangpin.individual_report(inRule, inInfor, user_email)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.inrule}, #{entity.ininfor}, #{entity.userEmail})
+        </foreach>
+        on duplicate key update
+        inRule = values(inRule) , inInfor = values(inInfor) , user_email = values(user_email)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shangpin.individual_report
+        <set>
+            <if test="inrule != null and inrule != ''">
+                inRule = #{inrule},
+            </if>
+            <if test="ininfor != null and ininfor != ''">
+                inInfor = #{ininfor},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail},
+            </if>
+            <if test="checkId = null">
+                check_id = #{checkId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from shangpin.individual_report
+        where id = #{id}
+    </delete>
+
+</mapper>
+

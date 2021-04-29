@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shangpin.dao.EnterpriseReportDao">
+
+    <resultMap type="com.shangpin.entity.EnterpriseReport" id="EnterpriseReportMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="enrule" column="enRule" jdbcType="VARCHAR"/>
+        <result property="eninfor" column="enInfor" jdbcType="VARCHAR"/>
+        <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+        <result property="checkId" column="check_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EnterpriseReportMap">
+        select id,
+               enRule,
+               enInfor,
+               user_email,
+               check_id
+        from shangpin.enterprise_report
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EnterpriseReportMap">
+        select id,
+               enRule,
+               enInfor,
+               user_email,
+               check_id
+        from shangpin.enterprise_report limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EnterpriseReportMap">
+        select
+        id, enRule, enInfor, user_email, check_id
+        from shangpin.enterprise_report
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="enrule != null and enrule != ''">
+                and enRule = #{enrule}
+            </if>
+            <if test="eninfor != null and eninfor != ''">
+                and enInfor = #{eninfor}
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                and user_email = #{userEmail}
+            </if>
+            <if test="checkId != null">
+                and check_id = #{checkId}
+            </if>
+        </where>
+    </select>
+    <select id="queryByCheckId" resultMap="EnterpriseReportMap">
+        select
+            id,
+            enRule,
+            enInfor,
+            user_email,
+            check_id
+        from
+            (select
+                 id,
+                 enRule,
+                 enInfor,
+                 user_email,
+                 check_id
+             from shangpin.enterprise_report
+             group by check_id) as onlyOne
+        where check_id = #{id}
+    </select>
+    <select id="queryByUserEmail" resultMap="EnterpriseReportMap">
+        select id,
+               enRule,
+               enInfor,
+               user_email,
+               check_id
+        from shangpin.enterprise_report
+        where user_email = #{email}
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into shangpin.enterprise_report(enRule, enInfor, user_email, check_id)
+        values (#{enrule}, #{eninfor}, #{userEmail}, #{checkId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into shangpin.enterprise_report(enRule, enInfor, user_email, check_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.enrule}, #{entity.eninfor}, #{entity.userEmail}, #{entity.checkId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into shangpin.enterprise_report(enRule, enInfor, user_email, check_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.enrule}, #{entity.eninfor}, #{entity.userEmail}, #{entity.checkId})
+        </foreach>
+        on duplicate key update
+        enRule = values(enRule) , enInfor = values(enInfor) , user_email = values(user_email) , check_id =
+        values(check_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shangpin.enterprise_report
+        <set>
+            <if test="enrule != null and enrule != ''">
+                enRule = #{enrule},
+            </if>
+            <if test="eninfor != null and eninfor != ''">
+                enInfor = #{eninfor},
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                user_email = #{userEmail},
+            </if>
+            <if test="checkId != null">
+                check_id = #{checkId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from shangpin.enterprise_report
+        where id = #{id}
+    </delete>
+
+</mapper>
+
